@@ -159,7 +159,7 @@ void SetMemoryLimit(rlim_t mem_limit)
    }
    SetSoftRlimitErr(RLIMIT_DATA, mem_limit, "RLIMIT_DATA");
 #ifdef RLIMIT_AS
-   SetSoftRlimitErr(RLIMIT_DATA, mem_limit, "RLIMIT_AS");
+   SetSoftRlimitErr(RLIMIT_AS, mem_limit, "RLIMIT_AS");
 #endif /* RLIMIT_AS */
 }
 
