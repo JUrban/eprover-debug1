@@ -28,12 +28,7 @@
 /*                        Global Variables                             */
 /*---------------------------------------------------------------------*/
 
-static unsigned int xstate = 123456789,
-   ystate = 987654321,
-   zstate = 43219876,
-   cstate = 6543217; /* State for KISS RNG*/
-
-
+/* Default state used when callers pass NULL. */
 static RandStateCell rand_state = {123456789,987654321,43219876,6543217};
 
 ProblemType problemType = PROBLEM_NOT_INIT;
@@ -164,14 +159,14 @@ unsigned JKISSRand(RandState_p state)
    {
       state = &rand_state;
    }
-   xstate = 314527869 * xstate + 1234567;
-   ystate ^= ystate << 5;
-   ystate ^= ystate >> 7;
-   ystate ^= ystate << 22;
-   t = 4294584393ULL * zstate + cstate;
-   cstate = t >> 32;
-   zstate = t;
-   return xstate + ystate + zstate;
+   state->xstate = 314527869 * state->xstate + 1234567;
+   state->ystate ^= state->ystate << 5;
+   state->ystate ^= state->ystate >> 7;
+   state->ystate ^= state->ystate << 22;
+   t = 4294584393ULL * state->zstate + state->cstate;
+   state->cstate = t >> 32;
+   state->zstate = t;
+   return state->xstate + state->ystate + state->zstate;
 }
 
 /*-----------------------------------------------------------------------
