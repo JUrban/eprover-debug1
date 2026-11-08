@@ -223,7 +223,7 @@ PStackPointer PStackBinSearch(PStack_p stack, void* key, PStackPointer lower,
       //printf("Pup %d\n",cmpres);
       if(cmpres < 0)
       {
-         upper = i-1;
+         upper = i;
       }
       else if(cmpres > 0)
       {
@@ -235,7 +235,7 @@ PStackPointer PStackBinSearch(PStack_p stack, void* key, PStackPointer lower,
       }
    }
    //printf("Regular exit\n");
-   return lower+1;
+   return lower;
 }
 
 
