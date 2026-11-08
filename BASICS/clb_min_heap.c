@@ -268,7 +268,9 @@ IntOrP MinHeapPopMin(MinHeap_p h)
 //
 // Function: MinHeapDecrKey()
 //
-//   Notify that the key assigned to the idx has (possibly) been decreased. O(log n)
+//   Notify that the key assigned to the idx has (possibly) been decreased.
+//   A decreased key may now be smaller than its parent, so the element
+//   has to be bubbled up. O(log n)
 //
 // Global Variables: -
 //
@@ -278,14 +280,16 @@ IntOrP MinHeapPopMin(MinHeap_p h)
 
 void MinHeapDecrKey(MinHeap_p h, long idx)
 {
-   drop_down(h, idx);
+   bubble_up(h, idx);
 }
 
 /*-----------------------------------------------------------------------
 //
 // Function: MinHeapIncrKey()
 //
-//   Notify that the key assigned to the idx has (possibly) been increased. O(log n)
+//   Notify that the key assigned to the idx has (possibly) been increased.
+//   An increased key may now be larger than its children, so the element
+//   has to be dropped down. O(log n)
 //
 // Global Variables: -
 //
@@ -295,7 +299,7 @@ void MinHeapDecrKey(MinHeap_p h, long idx)
 
 void MinHeapIncrKey(MinHeap_p h, long idx)
 {
-   bubble_up(h, idx);
+   drop_down(h, idx);
 }
 
 /*-----------------------------------------------------------------------
