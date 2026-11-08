@@ -1,0 +1,4 @@
+test_pstack_binsearch
+test_minheap
+test_kissrand
+*.o
