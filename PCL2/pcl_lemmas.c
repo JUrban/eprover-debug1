@@ -561,7 +561,7 @@ long PCLProtSeqFindLemmas(PCLProt_p prot, LemmaParam_p params,
       {
     PCLStepSetProp(step, PCLIsLemma);
     res++;
-    if(res > max_number)
+    if(res >= max_number)
     {
        break;
     }
