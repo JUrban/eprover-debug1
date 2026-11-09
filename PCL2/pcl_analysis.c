@@ -350,16 +350,27 @@ long PCLProtSelectExamples(PCLProt_p prot, long neg_examples)
          PStackGetSP(prot->in_order),
          sizeof(IntOrP),
          pcl_example_cmp);
-   for(i=0; (i<PStackGetSP(prot->in_order))&&(neg_examples>0); i++)
+   for(i=0; i<PStackGetSP(prot->in_order); i++)
    {
       step = PStackElementP(prot->in_order, i);
       if(PCLStepQueryProp(step, PCLIsFOFStep))
       {
          continue; /* We only consider clauses */
       }
-      PCLStepSetProp(step, PCLIsExample);
-      if(!PCLStepQueryProp(step, PCLIsProofStep))
+      if(PCLStepQueryProp(step, PCLIsProofStep))
       {
+         PCLStepSetProp(step, PCLIsExample);
+      }
+      else
+      {
+         /* The steps are sorted proof steps first, so from here on
+            all remaining steps are non-proof; the budget only limits
+            those. */
+         if(neg_examples<=0)
+         {
+            break;
+         }
+         PCLStepSetProp(step, PCLIsExample);
          neg_examples--;
       }
    }
