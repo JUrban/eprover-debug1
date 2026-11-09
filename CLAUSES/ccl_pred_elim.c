@@ -829,12 +829,14 @@ void check_tautologies(PETask_p task, PStack_p unsat_core, TB_p tmp_terms)
    for(PStackPointer i = 0; i < PStackGetSP(pos); i++)
    {
       Clause_p pos_cl = PStackElementP(pos, i);
-      for(PStackPointer j = 0; all_tautologies && i < PStackGetSP(neg); i++)
+      for(PStackPointer j = 0; all_tautologies && j < PStackGetSP(neg); j++)
       {
          Clause_p neg_cl = PStackElementP(neg, j);
          Clause_p res = build_neq_resolvent(pos_cl, neg_cl, task->sym);
          // NB: freshly built resolvent is freed here!
-         all_tautologies = ClauseIsTautologyReal(tmp_terms, res, false);
+         // If the two literals do not unify, there is no resolvent, so
+         // the pair certainly does not resolve to a tautology.
+         all_tautologies = res && ClauseIsTautologyReal(tmp_terms, res, false);
       }
    }
 
