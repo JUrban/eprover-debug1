@@ -173,7 +173,7 @@ void PCL2PosPrint(FILE* out, PCL2Pos_p pos)
       while(i<pos->termposlen)
       {
     assert(pos->termpos);
-    fprintf(out, "%ld", PDArrayElementInt(pos->termpos,i++));
+    fprintf(out, ".%ld", PDArrayElementInt(pos->termpos,i++));
       }
    }
 }
