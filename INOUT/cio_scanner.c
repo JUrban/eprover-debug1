@@ -241,6 +241,10 @@ static void scan_C_comment(Scanner_p in)
 
    while(!((CurrChar(in) == '*') && (LookChar(in,1) == '/')))
    {
+      if(CurrChar(in) == EOF)
+      {
+         AktTokenError(in, "Unterminated C comment", false);
+      }
       DStrAppendChar(AktToken(in)->literal, CurrChar(in));
       NextChar(in);
    }
