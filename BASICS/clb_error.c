@@ -216,10 +216,15 @@ void ELog(char* message, ...)
    FILE *logfile;
    sprintf(ErrStr, "elog%d.log", getpid());
    logfile = fopen(ErrStr, "a");
+   if(!logfile)
+   {
+      va_end(ap);
+      return;
+   }
 
    fprintf(logfile, "%d: %4.9f: ", getpid(), GetTotalCPUTime());
    vfprintf(logfile, message, ap);
-   fprintf(stderr, "\n");
+   fprintf(logfile, "\n");
    va_end(ap);
    fclose(logfile);
 }
