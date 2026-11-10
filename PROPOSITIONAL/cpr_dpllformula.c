@@ -165,7 +165,7 @@ void DPLLFormulaPrint(FILE* out,DPLLFormula_p form, DPLLOutputFormat format,
     {
        CommentPrint(out, " %4ld: %4ld %4ld\n", i,
           form->atoms[i].pos_occur,
-          form->atoms[i].pos_occur);
+          form->atoms[i].neg_occur);
     }
       }
    }
