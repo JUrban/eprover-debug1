@@ -514,7 +514,7 @@ void seeded_filter_largest(StructFOFSpec_p ctrl,
                        DStrView(desc));
    if(largest && FormulaQueryType(largest)==CPTypeHypothesis)
    {
-      FormulaSetType(handle, CPTypeAxiom);
+      FormulaSetType(largest, CPTypeAxiom);
    }
    DStrFree(name);
    DStrFree(desc);
@@ -559,7 +559,7 @@ void seeded_filter_diverse(StructFOFSpec_p ctrl,
    }
    if(largest && FormulaQueryType(largest)==CPTypeAxiom)
    {
-      FormulaSetType(handle, CPTypeHypothesis);
+      FormulaSetType(largest, CPTypeHypothesis);
    }
 
    DStrAppendStr(desc, "% Seed symbol: ");
