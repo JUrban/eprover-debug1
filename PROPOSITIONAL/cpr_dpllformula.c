@@ -206,7 +206,7 @@ void DPLLRegisterClauseLiteral(DPLLFormula_p form,
    PLiteralCode atom = ABS(lit);
    bool res;
 
-   while(form->atom_no<=lit)
+   while(form->atom_no<=atom)
    {
       dpll_form_add_atom_space(form);
    }
