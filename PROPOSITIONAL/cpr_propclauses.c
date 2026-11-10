@@ -65,7 +65,7 @@ int p_atom_compare(const void* atom1, const void* atom2)
       return 0;
    }
    abs_a1 = ABS(*a1);
-   abs_a2 = ABS(*a1);
+   abs_a2 = ABS(*a2);
    if(abs_a1 < abs_a2)
    {
       return -1;
