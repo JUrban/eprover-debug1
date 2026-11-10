@@ -309,7 +309,6 @@ MsgStatus TCPMsgRead(int sock, TCPMsg_p msg)
       res = read(sock,
                  msg->len_buf+msg->transmission_count,
                  sizeof(uint32_t)-msg->transmission_count);
-      printf("read(Size)=%d\n", res);
       if(res < 0)
       {
          return NWError;
@@ -321,18 +320,23 @@ MsgStatus TCPMsgRead(int sock, TCPMsg_p msg)
       msg->transmission_count += res;
       if(msg->transmission_count < (int)sizeof(uint32_t))
       {
-         return 0;
+         return NWIncomplete;
       }
       memcpy(&len, msg->len_buf, sizeof(uint32_t));
       len = ntohl(len);
-      printf("Message expected with %d bytes\n", len);
       msg->len = len;
       DStrAppendBuffer(msg->content, msg->len_buf, sizeof(uint32_t));
+   }
+   /* A header-only message (empty payload) is complete at this
+      point; do not issue read(fd, buffer, 0), which would be
+      misread as "connection closed". */
+   if(TCP_MSG_COMPLETE(msg))
+   {
+      return NWSuccess;
    }
    /* Rest */
    len = MIN(TCP_BUF_SIZE-1, msg->len - msg->transmission_count);
    res = read(sock, buffer, len);
-   printf("read(msg)=%d\n", res);
    if(res < 0)
    {
       return NWError;
