@@ -2656,6 +2656,7 @@ CLState_p process_options(int argc, char* argv[])
       case OPT_CNF_TIMEOUT_PORTION:
             clausification_time_part =
                CLStateGetIntArgCheckRange(handle, arg, 1, 99) / (double) 100;
+            break;
       case OPT_PREINSTANTIATE_INDUCTION:
             h_parms->preinstantiate_induction = CLStateGetBoolArg(handle, arg);
             break;
