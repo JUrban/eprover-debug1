@@ -563,7 +563,7 @@ void Listen(int sock)
    {
       TmpErrno = errno;
       SysError("Failed to switch socket %d to listening",
-               SYS_ERROR, socket);
+               SYS_ERROR, sock);
    }
 }
 
