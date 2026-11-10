@@ -205,11 +205,11 @@ bool FileVarsGetBool(FileVars_p vars, char* name, bool *value)
    {
       return false;
    }
-   if(strcmp(cell->val1.p_val, "true"))
+   if(strcmp(cell->val1.p_val, "true")==0)
    {
       *value = true;
    }
-   else if(strcmp(cell->val1.p_val, "false"))
+   else if(strcmp(cell->val1.p_val, "false")==0)
    {
       *value = false;
    }
