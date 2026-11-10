@@ -98,7 +98,7 @@ intmax_t ParseIntMax(Scanner_p in)
    else
    {
       CheckInpTok(in, PosInt);
-      value = - strtoimax(DStrView(AktToken(in)->literal), NULL, 10);
+      value = strtoimax(DStrView(AktToken(in)->literal), NULL, 10);
    }
    NextToken(in);
 
