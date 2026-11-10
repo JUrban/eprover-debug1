@@ -184,8 +184,8 @@ bool DPLLAssignVar(DPLLState_p state, PLiteralCode assignment)
    {
       assignment = -assignment;
       atom = &(state->form->atoms[assignment]);
-      deactivate_clauses(state, &(atom->pos_active));
-      res = shorten_clauses(state, &(atom->neg_active));
+      deactivate_clauses(state, &(atom->neg_active));
+      res = shorten_clauses(state, &(atom->pos_active));
    }
    return res;
 }
