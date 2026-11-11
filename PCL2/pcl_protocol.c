@@ -390,6 +390,12 @@ long PCLProtStripFOF(PCLProt_p prot)
             step->just = PCLExprAlloc();
             step->just->arg_no = 0;
             step->just->op = PCLOpInitial;
+            /* PCLStepParse sets this property for steps whose
+               justification is initial; keep the invariant for the
+               rewritten steps so they are still treated (and
+               printed, e.g. by PCLProtPrintPropClauses with
+               PCLIsInitial) as initials. */
+            PCLStepSetProp(step, PCLIsInitial);
          }
       }
    }
