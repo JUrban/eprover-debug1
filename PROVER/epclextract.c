@@ -120,6 +120,12 @@ OptCell opts[] =
     NoArg, NULL,
     "Equivalent to --output-level=0."},
 
+   {OPT_OUTPUTLEVEL,
+    'l', "output-level",
+    ReqArg, NULL,
+    "Select an output level, greater values imply more verbose "
+    "output."},
+
    {OPT_NOOPT,
     '\0', NULL,
     NoArg, NULL,
@@ -351,6 +357,9 @@ CLState_p process_options(int argc, char* argv[])
             break;
       case OPT_SILENT:
             OutputLevel = 0;
+            break;
+      case OPT_OUTPUTLEVEL:
+            OutputLevel = CLStateGetIntArg(handle, arg);
             break;
       default:
             assert(false);
