@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
 
    for(i=0; state->argv[i]; i++)
    {
-      in = CreateScanner(StreamTypeFile, state->argv[i], true, NULL);
+      in = CreateScanner(StreamTypeFile, state->argv[i], true, NULL, true);
       while(!TestInpTok(in,NoToken))
       {
     term  = TBTermParse(in, bank);
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
     }
     if((term->arity == 2) && (term->args[0]->arity == 1))
     {
-       com = (term->args[0]->args[1]==term->args[1]);
+       com = (term->args[0]->args[0]==term->args[1]);
     }
     else
     {
