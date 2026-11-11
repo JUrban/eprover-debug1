@@ -420,14 +420,30 @@ void PCLProtPropDataPrint(FILE* out, PCLPropData_p data)
       (double)(data->const_count)/clauses,
       (double)(data->pred_count)/clauses);
    CommentPrint(out, " Longest Clause (if any): \n");
-   PCLStepPrint(out, data->longest_clause);
+   if(data->longest_clause)
+   {
+      PCLStepPrint(out, data->longest_clause);
+   }
    fprintf(out, "\n"COMCHAR" Largest Clause (if any): \n");
-   PCLStepPrint(out, data->max_symbol_clause);
+   if(data->max_symbol_clause)
+   {
+      PCLStepPrint(out, data->max_symbol_clause);
+   }
    fprintf(out, "\n"COMCHAR" Heaviest Clause (if any): \n");
-   ClausePropInfoPrint(out, data->max_standard_weight_clause->logic.clause);
-   PCLStepPrint(out, data->max_standard_weight_clause);
+   if(data->max_standard_weight_clause)
+   {
+      if(!PCLStepIsFOF(data->max_standard_weight_clause))
+      {
+         ClausePropInfoPrint(out,
+                             data->max_standard_weight_clause->logic.clause);
+      }
+      PCLStepPrint(out, data->max_standard_weight_clause);
+   }
    fprintf(out, "\n"COMCHAR" Deepest Clause (if any): \n");
-   PCLStepPrint(out, data->max_depth_clause);
+   if(data->max_depth_clause)
+   {
+      PCLStepPrint(out, data->max_depth_clause);
+   }
    fprintf(out, "\n");
 }
 
