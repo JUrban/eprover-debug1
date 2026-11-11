@@ -439,7 +439,7 @@ int main(int argc, char* argv[])
    }
    freshvars = VarBankAlloc(type_bank);
    if(FormulaSetCNF2(formulas, f_ax_archive, clauses, terms, freshvars,
-                     1048576, FormulaDefLimit,
+                     miniscope_limit, FormulaDefLimit,
                      true, true, true, true, NULL))
    {
       VERBOUT("CNFization done\n");
