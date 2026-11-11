@@ -568,7 +568,7 @@ CLState_p process_options(int argc, char* argv[])
       case OPT_NO_REFERENCE_WEIGHTS:
             lp->act_pm_w    = 0;
             lp->o_gen_w     = 0;
-            lp->pas_simpl_w = 0;
+            lp->act_simpl_w = 0;
             lp->pas_simpl_w = 0;
             break;
       case OPT_LEMMA_HORN_BONUS:
