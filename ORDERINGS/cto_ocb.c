@@ -619,7 +619,7 @@ FunCode OCBTermMaxFunCode(OCB_p ocb, Term_p term)
    }
    res = term->f_code;
 
-   for(i=1; i<term->arity; i++)
+   for(i=0; i<term->arity; i++)
    {
       tmp = OCBTermMaxFunCode(ocb, term->args[i]);
       if(OCBFunCompare(ocb, tmp, res) == to_greater)
