@@ -418,7 +418,8 @@ static double tsm_rec_eval_no_weight(TSMAdmin_p admin, double *res,
       {
          for(i=0; i<term->arity; i++)
          {
-            eval_weight+= tsm_rec_eval(admin, res, tsa->arg_tsms[i],
+            eval_weight+= tsm_rec_eval_no_weight(admin, res,
+                                       tsa->arg_tsms[i],
                                        term->args[i], subst );
          }
       }
@@ -434,8 +435,8 @@ static double tsm_rec_eval_no_weight(TSMAdmin_p admin, double *res,
       {
          for(i=0; i<term->arity; i++)
          {
-            eval_weight+= tsm_rec_eval(admin, res, tsm, term->args[i],
-                                       subst );
+            eval_weight+= tsm_rec_eval_no_weight(admin, res, tsm,
+                                       term->args[i], subst );
          }
       }
    }
