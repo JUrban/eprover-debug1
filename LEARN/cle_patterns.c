@@ -1498,21 +1498,23 @@ FunCode PatternSubstGetOriginalSymbol(PatternSubst_p subst, FunCode f)
    }
    else
    {
+      /* Variable norm-ids are allocated downward from NORM_VAR_INIT,
+         so they alternate odd/even; the mapping must be looked up
+         BEFORE the alt-code check, which would swallow every odd
+         norm-id. The loop is bounded by var_subst's own size, and the
+         original variable FunCode is the NEGATIVE index (-i). */
+      for(i=0; i<subst->var_subst->size; i++)
+      {
+         if(PDArrayElementInt(subst->var_subst, i)==f)
+         {
+            return -i;
+         }
+      }
       if(VarFCodeIsAltCode(f))
       {
          return f;
       }
-      else
-      {
-         for(i=0; i<subst->fun_subst->size; i++)
-         {
-            if(PDArrayElementInt(subst->var_subst, i)==f)
-            {
-               return i;
-            }
-         }
-         return 0;
-      }
+      return 0;
    }
 }
 
