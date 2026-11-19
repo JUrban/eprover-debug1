@@ -98,6 +98,11 @@ Version 3.2.5 -> 3.5.X Countess Grey
 - ConjectureRelativeTermWeight is much faster: it no longer copies
   conjecture frequencies to the subterms of every evaluated term
   (these were never looked up). Results are unchanged.
+- Fixed an intermittent crash in PicoSAT during SAT checks: when the
+  original clause stack grew right behind a full learned clause stack
+  without padding, clause traversal loops over the clause stacks saw
+  no clauses at all, so a later move of the literal pool left all
+  clauses with pointers into the freed array.
 
 Version 3.1.0 -> 3.2.5 Puttabong Moondrop
 
