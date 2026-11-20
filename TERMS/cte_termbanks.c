@@ -1703,7 +1703,6 @@ Term_p TBTermParseReal(Scanner_p in, TB_p bank, bool check_symb_prop)
    DStr_p        id;
    FuncSymbType  id_type;
    DStr_p        source_name;
-   Type_p        type;
    long          line, column;
    StreamType    type_stream;
 
@@ -1742,18 +1741,9 @@ Term_p TBTermParseReal(Scanner_p in, TB_p bank, bool check_symb_prop)
       }
       else if((id_type=TermParseOperator(in, id))==FSIdentVar)
       {
-         /* A variable may be annotated with a sort */
-         if(TestInpTok(in, Colon))
-         {
-            AcceptInpTok(in, Colon);
-            type = TypeBankParseType(in, bank->sig->type_bank);
-            handle = VarBankExtNameAssertAllocSort(bank->vars,
-                                                   DStrView(id), type);
-         }
-         else
-         {
-            handle = VarBankExtNameAssertAlloc(bank->vars, DStrView(id));
-         }
+         /* Variables are typed in their binders (or get the default
+            type), never inside terms (as in TPTP) */
+         handle = VarBankExtNameAssertAlloc(bank->vars, DStrView(id));
       }
       else
       {
@@ -1847,7 +1837,6 @@ Term_p TBTermParseSimple(Scanner_p in, TB_p bank)
    DStr_p        id;
    FuncSymbType  id_type;
    DStr_p        source_name;
-   Type_p        type;
    long          line, column;
    StreamType    type_stream;
 
@@ -1862,18 +1851,9 @@ Term_p TBTermParseSimple(Scanner_p in, TB_p bank)
 
    if((id_type=TermParseOperator(in, id))==FSIdentVar)
    {
-      /* A variable may be annotated with a sort */
-      if(TestInpTok(in, Colon))
-      {
-         AcceptInpTok(in, Colon);
-         type = TypeBankParseType(in, bank->sig->type_bank);
-         handle = VarBankExtNameAssertAllocSort(bank->vars,
-                                                DStrView(id), type);
-      }
-      else
-      {
-         handle = VarBankExtNameAssertAlloc(bank->vars, DStrView(id));
-      }
+      /* Variables are typed in their binders (or get the default
+         type), never inside terms (as in TPTP) */
+      handle = VarBankExtNameAssertAlloc(bank->vars, DStrView(id));
    }
    else
    {
