@@ -440,8 +440,9 @@ void FVIndexInsert(FVIAnchor_p index, FreqVector_p vec_clause)
 //
 //   Delete a clause from a FVIndex. At the moment, just removes the
 //   clause from the final cell (I expect removals to be rare enough
-//   that it pays to leave the structure intact. Returns true if the
-//   clause was in the index, false otherwise.
+//   that it pays to leave the structure intact). The clause counts
+//   along the path are only decreased if the clause was found.
+//   Returns true if the clause was in the index, false otherwise.
 //
 // Global Variables: -
 //
@@ -461,21 +462,25 @@ bool FVIndexDelete(FVIAnchor_p index, Clause_p clause)
    /* FreqVector-Computation is measured independently */
    PERF_CTR_ENTRY(FVIndexTimer);
    handle = index->index;
-   handle->clause_count--;
-
-   for(i=0; i<vec->size; i++)
+   for(i=0; handle && (i<vec->size); i++)
    {
       assert(!handle->final);
       handle = IntMapGetVal(handle->u1.successors, vec->array[i]);
-      if(!handle)
-      {
-    break;
-      }
+   }
+   res = handle && OrdSetDeleteEntry(&(handle->u1.clauses), clause);
+   if(res)
+   {
+      handle = index->index;
       handle->clause_count--;
+      for(i=0; i<vec->size; i++)
+      {
+         handle = IntMapGetVal(handle->u1.successors, vec->array[i]);
+         handle->clause_count--;
+         assert(handle->clause_count >= 0);
+      }
    }
    FreqVectorFree(vec);
    /* ClauseDelProp(clause, CPIsSIndexed); */
-   res = handle?OrdSetDeleteEntry(&(handle->u1.clauses), clause):false;
    PERF_CTR_EXIT(FVIndexTimer);
    return res;
 }
