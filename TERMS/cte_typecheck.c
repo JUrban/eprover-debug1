@@ -173,7 +173,7 @@ bool TypeCheckConsistent(Sig_p sig, Term_p term)
                }
             }
             /* Check subterms recursively */
-            for(int i=0; i < type->arity; i++)
+            for(int i=0; i < term->arity; i++)
             {
                PStackPushP(stack, term->args[i]);
                if(term->args[i]->type != type->args[i])
