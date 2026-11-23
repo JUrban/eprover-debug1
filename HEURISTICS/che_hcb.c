@@ -724,16 +724,20 @@ bool HeuristicParmsParseInto(Scanner_p in,
    PARSE_BOOL(preinstantiate_induction);
    PARSE_BOOL(fool_unroll);
 
-   PARSE_INT(func_proj_limit);
-   PARSE_INT(imit_limit);
-   PARSE_INT(ident_limit);
-   PARSE_INT(elim_limit);
+   /* The limits are packed into 6-bit fields of Limits_t in
+      TERMS/cte_ho_bindings.c (the CLI enforces the same ranges);
+      values outside the range would silently corrupt the adjacent
+      counter fields. */
+   PARSE_INT_LIMITED(func_proj_limit, 0, 63);
+   PARSE_INT_LIMITED(imit_limit, 0, 63);
+   PARSE_INT_LIMITED(ident_limit, 0, 63);
+   PARSE_INT_LIMITED(elim_limit, 0, 63);
 
    PARSE_STRING_AND_CONVERT(unif_mode, str2um);
    PARSE_BOOL(pattern_oracle);
    PARSE_BOOL(fixpoint_oracle);
-   PARSE_INT(max_unifiers);
-   PARSE_INT(max_unif_steps);
+   PARSE_INT_LIMITED(max_unifiers, 0, 1024);
+   PARSE_INT_LIMITED(max_unif_steps, 0, 100000);
 
 
    AcceptInpTok(in, CloseCurly);
