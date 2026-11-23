@@ -253,7 +253,7 @@ void VarSetUnion(VarSet_p set, VarSet_p set1, VarSet_p set2)
 {
    VarSetReset(set);
    set->vars = OrdSetCopy(set1->vars);
-   OrdSetMerge(&set->vars, set2->vars);
+   OrdSetInsertSet(&set->vars, set2->vars);
 }
 
 
@@ -272,6 +272,10 @@ void VarSetUnion(VarSet_p set, VarSet_p set1, VarSet_p set2)
 void VarSetMerge(VarSet_p set, VarSet_p set1)
 {
    OrdSetMerge(&(set->vars), set1->vars);
+   /* OrdSetMerge destroys set1->vars (all cells incl. the anchor are
+      freed). NULL the pointer out before freeing the set, or
+      VarSetFree -> OrdSetFree would walk the freed anchor ring. */
+   set1->vars = NULL;
    VarSetFree(set1);
 }
 
