@@ -2107,7 +2107,10 @@ void SigPrintAppEncodedDecls(FILE* out, Sig_p sig)
 //
 //   Checks whether f_code can be unified with a variable. In HO
 //   case variable unifies with any function code; in FOOL case
-//   variable unifies with $true, $false and non-predicate symbols.
+//   variables never have a functional type (asserted in the unifier,
+//   see cte_match_mgu_1-1.c), so only symbols of non-functional type
+//   -- constants and Boolean-typed symbols such as $true/$false and
+//   0-ary predicates -- can be unified with a variable.
 //
 // Global Variables: -
 //
@@ -2117,14 +2120,25 @@ void SigPrintAppEncodedDecls(FILE* out, Sig_p sig)
 
 bool SigSymbolUnifiesWithVar(Sig_p sig, FunCode f_code)
 {
+   Type_p type;
+
    assert(sig);
    assert(f_code);
 
-   return problemType == PROBLEM_HO ||
-          f_code == SIG_TRUE_CODE || f_code == SIG_FALSE_CODE ||
-          f_code != SIG_DB_LAMBDA_CODE ||
-          f_code <= 0 ||
-          !SigIsPredicate(sig,f_code);
+   if(problemType == PROBLEM_HO)
+   {
+      return true;
+   }
+   if(f_code <= 0)
+   {
+      return true;
+   }
+   type = SigGetType(sig, f_code);
+   if(!type)
+   {
+      return true;
+   }
+   return !TypeIsArrow(type);
 }
 
 #define TMP_LET_ID (-1)
