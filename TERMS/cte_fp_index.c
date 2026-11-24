@@ -154,23 +154,29 @@ static bool fpindex_rek_delete(FPTree_p index, IndexFP_p key, int current)
    {
       return false;
    }
-   if(current == key[0])
+   if(current < key[0])
    {
-      return index->payload==NULL;
-   }
-   delete = fpindex_rek_delete(fpindex_alternative(index, key[current]),
-                               key,
-                               current+1);
-   if(delete)
-   {
-      FPTree_p junk = fpindex_extract_alt(index, key[current]);
-      if(junk->f_alternatives)
+      delete = fpindex_rek_delete(fpindex_alternative(index, key[current]),
+                                  key,
+                                  current+1);
+      if(delete)
       {
-         IntMapFree(junk->f_alternatives);
+         FPTree_p junk = fpindex_extract_alt(index, key[current]);
+         if(junk->f_alternatives)
+         {
+            IntMapFree(junk->f_alternatives);
+         }
+         FPTreeCellFree(junk);
       }
-      FPTreeCellFree(junk);
    }
-   return index->count==0;
+   /* A node is pruned only when it holds no payload AND has no children.
+      For variable-length keys (the NPDT index) a node on the key path may
+      carry its own payload (a shorter term whose fingerprint ends here) or
+      children (a longer term sharing this prefix); pruning on count alone
+      would drop the payload/branch and leak the subtree. For the fixed-width
+      FP* indices a node holds a payload only at the common leaf depth and
+      has no children there, so this is behavior-identical. */
+   return index->payload==NULL && index->count==0;
 }
 
 
